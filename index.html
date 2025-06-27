@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Automation Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            margin: 30px 0;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .cover-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .cover-info p {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #495057;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .problem-card {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .problem-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .problem-card h4::before {
+            content: '😫';
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .solution-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 50px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 30px;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.3);
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            font-size: 2em;
+            color: #667eea;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 40px 0;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            font-size: 1.3em;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1em;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .before-col {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
+            color: white;
+        }
+
+        .after-col {
+            background: linear-gradient(135deg, #51cf66, #40c057) !important;
+            color: white;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 3px solid #e9ecef;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            border-color: #667eea;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .price {
+            font-size: 3em;
+            font-weight: 700;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .pricing-card.featured .price {
+            color: white;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2em;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255,255,255,0.4);
+        }
+
+        .testimonial {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            font-style: italic;
+            font-size: 1.2em;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 4em;
+            color: #667eea;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .testimonial-author {
+            text-align: right;
+            font-weight: 600;
+            color: #667eea;
+            margin-top: 15px;
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .workflow-step {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            background: rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+                margin: 20px 0;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            h2 {
+                font-size: 2em;
+            }
+            
+            .solution-flow {
+                flex-direction: column;
+            }
+            
+            .flow-step::after {
+                content: '↓';
+                right: auto;
+                bottom: -40px;
+                top: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Cover -->
+        <div class="slide" id="slide1">
+            <div class="slide-number">01</div>
+            <h1>🚀 HỆ THỐNG TỰ ĐỘNG HÓA CV</h1>
+            <p class="subtitle">Từ Google Drive → Google Sheets trong 30 giây</p>
+            <p class="subtitle" style="font-size: 1.5em; color: #667eea; font-weight: 600;">Giải pháp tiết kiệm 90% thời gian quản lý hồ sơ ứng viên</p>
+            
+            <div class="cover-info">
+                <p><strong>👤 Chuyên gia:</strong> Vũ Hoài Lân</p>
+                <p><strong>📞 Liên hệ:</strong> 0961128912 (gọi/zalo)</p>
+                <p><strong>📧 Email:</strong> vuhoailan027@gmail.com</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide" id="slide2">
+            <div class="slide-number">02</div>
+            <h2>😫 HR ĐANG GẶP KHÓ KHĂN GÌ?</h2>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h4>📧 Hồ sơ nằm rải rác</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• Hồ sơ trong email, không sắp xếp</li>
+                        <li>• Khó tìm lại khi cần</li>
+                        <li>• Thông tin trùng lặp, thiếu sót</li>
+                    </ul>
+                </div>
+                
+                <div class="problem-card">
+                    <h4>⏰ Lãng phí thời gian</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• 2-3 tiếng/ngày nhập liệu</li>
+                        <li>• Sao chép thông tin từ CV vào Excel</li>
+                        <li>• Đổi tên file, sắp xếp thư mục</li>
+                    </ul>
+                </div>
+                
+                <div class="problem-card">
+                    <h4>📊 Không có tổng quan</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• Khó so sánh ứng viên</li>
+                        <li>• Không theo dõi được tiến độ</li>
+                        <li>• Báo cáo thủ công cho quản lý</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide" id="slide3">
+            <div class="slide-number">03</div>
+            <h2>✨ GIẢI PHÁP TỰ ĐỘNG HÓA</h2>
+            
+            <div class="solution-flow">
+                <div class="flow-step">
+                    <div class="flow-icon">📄</div>
+                    <div>Tải lên CV</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-icon">🤖</div>
+                    <div>Xử lý tự động</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-icon">📊</div>
+                    <div>Cập nhật dữ liệu</div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #51cf66, #40c057); color: white; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
+                <h3 style="color: white; margin-bottom: 20px;">🎯 Kết quả</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div>✅ <strong>Tự động trích xuất</strong> thông tin</div>
+                    <div>✅ <strong>Sắp xếp file</strong> theo vị trí</div>
+                    <div>✅ <strong>Bảng điều khiển thời gian thực</strong></div>
+                    <div>✅ <strong>Báo cáo một cú nhấp</strong></div>
+                </div>
+                <div style="font-size: 2em; font-weight: 700; margin-top: 20px;">⚡ Từ 3 tiếng → 10 phút mỗi ngày!</div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-top: 30px;">
+                <h3 style="color: white; font-size: 1.5em;">🎉 MIỄN PHÍ HOÀN TOÀN - SỬ DỤNG KHÔNG GIỚI HẠN THỜI GIAN</h3>
+                <p style="font-size: 1.1em; margin-top: 10px;">Toàn bộ hệ thống sử dụng công cụ miễn phí của Google</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Features -->
+        <div class="slide" id="slide4">
+            <div class="slide-number">04</div>
+            <h2>🛠️ TÍNH NĂNG CHÍNH</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h4>Trích xuất dữ liệu tự động</h4>
+                    <p>Tự động đọc tên, SĐT, email, kỹ năng, kinh nghiệm từ hồ sơ</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h4>Sắp xếp file tự động</h4>
+                    <p>Tự động đổi tên, phân loại theo vị trí, dễ tìm kiếm & lọc</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h4>Bảng điều khiển & Báo cáo</h4>
+                    <p>Tổng quan thời gian thực, theo dõi trạng thái, xuất báo cáo 1 cú nhấp</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h4>Thông báo thông minh</h4>
+                    <p>Cảnh báo hồ sơ mới, nhắc nhở theo dõi, báo cáo tóm tắt hàng tuần</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Before/After -->
+        <div class="slide" id="slide5">
+            <div class="slide-number">05</div>
+            <h2>📈 TRƯỚC & SAU</h2>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="before-col">😫 TRƯỚC</th>
+                            <th class="after-col">😊 SAU</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3 tiếng/ngày nhập liệu</td>
+                            <td>10 phút/ngày xem xét</td>
+                        </tr>
+                        <tr>
+                            <td>Hồ sơ rải rác trong email</td>
+                            <td>Cơ sở dữ liệu tập trung</td>
+                        </tr>
+                        <tr>
+                            <td>Theo dõi trạng thái thủ công</td>
+                            <td>Cập nhật trạng thái tự động</td>
+                        </tr>
+                        <tr>
+                            <td>File Excel lộn xộn</td>
+                            <td>Bảng tính sạch, có tổ chức</td>
+                        </tr>
+                        <tr>
+                            <td>Quên theo dõi ứng viên</td>
+                            <td>Nhắc nhở tự động</td>
+                        </tr>
+                        <tr>
+                            <td>Khó tạo báo cáo</td>
+                            <td>Xuất báo cáo 1 cú nhấp</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="text-align: center; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; margin-top: 30px;">
+                <h3 style="color: white;">🎯 Lợi ích: Tiết kiệm 15 tiếng/tuần = 60 tiếng/tháng</h3>
+            </div>
+        </div>
+
+        <!-- Slide 6: Case Study -->
+        <div class="slide" id="slide6">
+            <div class="slide-number">06</div>
+            <h2>🏢 NGHIÊN CỨU TÌNH HUỐNG THÀNH CÔNG</h2>
+            
+            <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 40px; border-radius: 20px; margin: 30px 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 30px;">
+                    <div>
+                        <h4 style="color: #667eea;">📊 KHÁCH HÀNG</h4>
+                        <p>Startup Công nghệ 50 nhân viên</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea;">⚡ THÁCH THỨC</h4>
+                        <p>1 nhân viên nhân sự xử lý 20+ vị trí trong 6 tháng</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea;">🚀 GIẢI PHÁP</h4>
+                        <p>Triển khai hệ thống tự động hóa hồ sơ</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="text-align: center; margin: 30px 0;">📊 KẾT QUẢ sau 3 tháng:</h3>
+            <div class="features-grid">
+                <div class="feature-card" style="background: linear-gradient(135deg, #51cf66, #40c057);">
+                    <div class="feature-icon">⏱️</div>
+                    <h4>Tiết kiệm thời gian</h4>
+                    <p>Giảm 80% công việc hành chính</p>
+                </div>
+                <div class="feature-card" style="background: linear-gradient(135deg, #4ecdc4, #44a08d);">
+                    <div class="feature-icon">🎯</div>
+                    <h4>Hiệu quả</h4>
+                    <p>Xử lý gấp 3 lần số hồ sơ/ngày</p>
+                </div>
+                <div class="feature-card" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <div class="feature-icon">📈</div>
+                    <h4>Chất lượng</h4>
+                    <p>Không bỏ sót ứng viên nào</p>
+                </div>
+                <div class="feature-card" style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">
+                    <div class="feature-icon">😊</div>
+                    <h4>Hài lòng</h4>
+                    <p>Nhóm nhân sự giảm áp lực 70%</p>
+                </div>
+            </div>
+            
+            <div class="testimonial">
+                Thay đổi hoàn toàn cách làm việc! Giờ tôi có thời gian tập trung vào phỏng vấn và xây dựng mối quan hệ thay vì làm giấy tờ.
+                <div class="testimonial-author">- Trưởng phòng Nhân sự</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Pricing -->
+        <div class="slide" id="slide7">
+            <div class="slide-number">07</div>
+            <h2>💰 GÓI DỊCH VỤ</h2>
+            
+            <div style="background: linear-gradient(135deg, #51cf66, #40c057); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 40px;">
+                <h3 style="color: white; font-size: 1.5em;">🎉 HỆ THỐNG MIỄN PHÍ - SỬ DỤNG VĨNH VIỄN</h3>
+                <p style="font-size: 1.1em; margin-top: 10px;">Tất cả quy trình và công cụ đều sử dụng nền tảng miễn phí của Google</p>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h4>🆓 GÓI 1</h4>
+                    <h3>TỰ LÀM MIỄN PHÍ</h3>
+                    <div class="price">MIỄN PHÍ</div>
+                    <ul style="list-style: none; padding: 0; text-align: left;">
+                        <li>✅ Hướng dẫn thiết lập chi tiết</li>
+                        <li>✅ Mẫu Google Sheets có sẵn</li>
+                        <li>✅ Mã tự động hóa</li>
+                        <li>✅ Video hướng dẫn</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <h4>⚡ GÓI 2</h4>
+                    <h3>THIẾT LẬP SẴN</h3>
+                    <div class="price">100K</div>
+                    <ul style="list-style: none; padding: 0; text-align: left;">
+                        <li>✅ Thiết lập hoàn chỉnh</li>
+                        <li>✅ Tùy chỉnh theo nhu cầu</li>
+                        <li>✅ Đào tạo nhóm sử dụng</li>
+                        <li>✅ Hỗ trợ 1 tuần</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card">
+                    <h4>🚀 GÓI 3</h4>
+                    <h3>DOANH NGHIỆP</h3>
+                    <div class="price">Tùy chỉnh</div>
+                    <ul style="list-style: none; padding: 0; text-align: left;">
+                        <li>✅ Quy trình nâng cao</li>
+                        <li>✅ Nhiều phòng ban</li>
+                        <li>✅ Tích hợp tùy chỉnh</li>
+                        <li>✅ Hỗ trợ liên tục</li>
+                    </ul>
+                </div>
+            </div>
+        </div>    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Testimonials -->
+        <div class="slide" id="slide8">
+            <div class="slide-number">08</div>
+            <h2>💬 KHÁCH HÀNG NÓI GÌ?</h2>
+            
+            <div class="testimonial">
+                Từ 3 tiếng organize CV mỗi ngày xuống còn 10 phút. Incredible!
+                <div class="testimonial-author">- Linh N., HR Manager</div>
+            </div>
+            
+            <div class="testimonial">
+                Cuối tháng làm report chỉ cần 1 click thay vì 2 ngày làm Excel.
+                <div class="testimonial-author">- Minh T., Startup Founder</div>
+            </div>
+            
+            <div class="testimonial">
+                Không bao giờ miss CV nữa. Everything được track automatically.
+                <div class="testimonial-author">- Mai L., Recruiter</div>
+            </div>
+            
+            <div style="text-align: center; background: linear-gradient(135deg, #51cf66, #40c057); color: white; padding: 25px; border-radius: 15px; margin-top: 30px;">
+                <h3 style="color: white;">⭐ 100% satisfaction rate từ 15+ clients</h3>
+            </div>
+        </div>
+
+        <!-- Slide 9: CTA -->
+        <div class="slide" id="slide9">
+            <div class="slide-number">09</div>
+            <h2>🎯 BƯỚC TIẾP THEO</h2>
+            
+            <div class="cta-section">
+                <h3 style="color: white; margin-bottom: 30px;">🤝 INTERESTED?</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px;">
+                        <h4 style="color: white;">Option 1: Try FREE</h4>
+                        <p>Comment email để nhận guide<br>Self-setup trong 1-2 tiếng</p>
+                        <a href="#" class="cta-button">Nhận FREE Guide</a>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px;">
+                        <h4 style="color: white;">Option 2: Done-for-you</h4>
+                        <p>Setup within 1 week<br>Dedicated support</p>
+                        <a href="#" class="cta-button">Book Consultation</a>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px;">
+                        <h4 style="color: white;">Option 3: Enterprise</h4>
+                        <p>Custom solution<br>Enterprise needs</p>
+                        <a href="#" class="cta-button">Schedule Call</a>
+                    </div>
+                </div>
+                
+                <p style="font-size: 1.3em; margin-top: 30px;">📞 Contact ngay hôm nay để bắt đầu save time!</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Contact -->
+        <div class="slide" id="slide10">
+            <div class="slide-number">10</div>
+            <h2>📞 LIÊN HỆ & Q&A</h2>
+            
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div style="font-size: 2.5em; margin-bottom: 15px;">📧</div>
+                    <h4>Email</h4>
+                    <p>[email của bạn]
